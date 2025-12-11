@@ -264,10 +264,11 @@ export const navBarConfig: NavBarConfig = {
 			],
 		},
 		{
-					name: "Devices",
-					url: "devices/",
-					icon: "material-symbols:devices",
-					external: false,
+			name: "My",
+			url: "/content/",
+			icon: "material-symbols:person",
+			children: [
+				{
 				},
 			],
 		},
