@@ -2,6 +2,7 @@
 title: Draft Example
 published: 2022-07-01
 tags: [Markdown, Blogging, Demo]
+image: "https://im.quiyu.top/file/1765524063441_690de4119cb5a-1762518033-WtmPrSn2qM.jpg"
 category: Examples
 draft: true
 ---
