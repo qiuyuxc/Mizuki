@@ -402,13 +402,15 @@ export const announcementConfig: AnnouncementConfig = {
 };
 
 export const musicPlayerConfig: MusicPlayerConfig = {
-	enable: true, // 启用音乐播放器功能
-	mode: "meting", // 音乐播放器模式，可选 "local" 或 "meting"
-	meting_api:
-		"https://www.bilibili.uno/api?server=:server&type=:type&id=:id&auth=:auth&r=:r", // Meting API 地址
-	id: "17539034564", // 歌单ID
-	server: "netease", // 音乐源服务器。有的meting的api源支持更多平台,一般来说,netease=网易云音乐, tencent=QQ音乐, kugou=酷狗音乐, xiami=虾米音乐, baidu=百度音乐
-	type: "playlist", // 播单类型
+	enable: true, // 启用音乐播放器
+	mode: "meting", // 保持 meting 模式
+	// 👉 替换为支持 auth/Token 的稳定 API（专门适配网易云）
+	meting_api: "https://api.injahow.cn/meting/?server=:server&type=:type&id=:id&auth=:auth&r=:r",
+	id: "12959629317", // 你的歌单 ID
+	server: "netease", // 网易云音乐平台
+	type: "playlist", // 歌单类型
+	// 你的网易云 MUSIC_U Token（已验证格式正确）
+	auth: "002DD0D9FEC2B9DD3F70C54B7CDE9EAAA81C31F0879CB21E70308294378C1A972F73E19FE45063C70EDA02B87E325B45A0C3A5A08AA48C0E301CB886B836AE655F49842A9C768E608AAD4321DC6DADA5316B1345732D46223765081397C66720094D2F2D31046E958B3366F27142EA21F55DD30059F2A9FDC9C7BABD1347335ABB5DEE104B08EB08CA9E31C2B722A051C90077F8EEFAB30D625751E9E7721EC4554EE501F74F64FA2B5F8E1561A28A93CD22412A2C02B2AB6B6626B3886D6E3F759A8E67FFFA2B394C464D5565C23942C2BE65CEF9537F0E636C961ED162662F77AF5542FD9CA0D6AA45EC34EE2B8629BB8D06D6961DE78961B241059A3DBDC0953CB1C5435FEFE3857CE4BEBB9631DEF20C6AAE2690A8F5A6EFD288523ADABBF12EA4B047CC180B7C7BC7DE0FFDA92998EC31AD1536FFD13BB2D2AD8712C50275EBBA4FE65D22C5E114581F7CE66E8C20BFD4597A3B3E110A1689C40AEA52FE6E4737A98FF67AD40E03B7A6BE5A599E753419C2F5078E0DF68F0F89BB07E8657BCCADD17488CC9F0AD5D51E6E7ADA078B"
 };
 
 export const footerConfig: FooterConfig = {
