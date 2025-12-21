@@ -636,9 +636,9 @@ export const widgetConfigs = {
 
 export const umamiConfig = {
 	enabled: true, // 是否显示Umami统计
-	apiKey: import.meta.env.UMAMI_API_KEY || "api_a1b2c3d4e5f7g7h8i9j0", // API密钥优先从环境变量读取，否则使用配置文件中的值
-	baseUrl: "https://um.quiyu.cn", // Umami Cloud API地址
+	apiKey: import.meta.env.UMAMI_API_KEY || "api_vAp7ORORfkxSr28NCsO5HQcNdeq7ZKA1", // API密钥优先从环境变量读取，否则使用配置文件中的值
+	baseUrl: "https://cloud.umami.is", // Umami Cloud API地址
 	scripts: `
-<script defer src="https://um.quiyu.cn/script.js" data-website-id="83d3ae16-c421-4676-ae73-8bd88a5a5571"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="010a1dd3-7465-4fa7-b73b-09b6ad6efe85"></script>
   `.trim(), // 上面填你要插入的Script,不用再去Layout中插入
 } as const;
