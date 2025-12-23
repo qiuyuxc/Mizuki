@@ -718,3 +718,51 @@ html {
 :root:not(.dark) .custom-md spoiler {
   --_spoiler-mask: color-mix(in oklch, var(--primary) 55%, white 45%);
 }
+
+/* --- 全站清晰背景图方案开始 --- */
+
+/* 1. 设置固定背景图 - 已填入你的 OSS 地址 */
+body {
+  background-image: url('https://oss.quiyu.cn/blog.webp') !important;
+  background-attachment: fixed !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* 2. 移除所有阻挡背景的实色和毛玻璃效果 */
+.card-base, 
+.post-card-item, 
+.widget, 
+.float-panel,
+#app-container,
+.surface-container,
+#main-wrapper {
+  background-color: rgba(255, 255, 255, 0.2) !important; /* 20%的极浅白色遮罩，保证文字可读同时不遮挡图片 */
+  backdrop-filter: none !important;                    /* 彻底关掉毛玻璃，保持图片清晰 */
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;                         /* 去掉阴影，让界面更清爽 */
+}
+
+/* 3. 暗色模式适配：自动调节背景亮度 */
+:root.dark body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3); /* 深色模式下给背景盖一层30%的黑，防止刺眼 */
+  z-index: -1;
+}
+
+/* 4. 文字辅助：给文字加微弱阴影，防止在浅色背景下看不清 */
+.post-card-item a, 
+.post-card-item p, 
+.widget,
+.text-90,
+.text-75 {
+  text-shadow: 0 1px 2px rgba(0,0,0,0.05); 
+}
+
+/* --- 全站清晰背景图方案结束 --- */
