@@ -269,6 +269,10 @@ export const navBarConfig: NavBarConfig = {
 			icon: "material-symbols:person",
 			children: [
 				{
+					name: "网盘",
+					url: "https://pan.quiyu.cn",
+					icon: "material-symbols:cloud-outline",
+   external: true
 				},
 			],
 		},
@@ -297,19 +301,19 @@ export const navBarConfig: NavBarConfig = {
 				{
 					name: "站点状态",
 					url: "https://cloud.quiyun.com",
-					icon: "material-symbols:work",
+					icon: "material-symbols:vital-signs",
    external: true
 				},
 				{
 					name: "umami",
 					url: "https://cloud.umami.is/share/n1v9LfSuJEOe7HoO",
-					icon: "material-symbols:psychology",
+					icon: "material-symbols:bar-chart",
    external: true
 				},
 				{
 					name: "EdgeOne监控大屏",
 					url: "https://nmer.quiyu.cn/",
-					icon: "material-symbols:timeline",
+					icon: "material-symbols:security-metrics",
    external: true
 				},
 			],
