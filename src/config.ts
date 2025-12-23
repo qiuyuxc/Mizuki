@@ -313,7 +313,7 @@ export const navBarConfig: NavBarConfig = {
 				{
 					name: "EdgeOne监控大屏",
 					url: "https://nmer.quiyu.cn/",
-					icon: "material-symbols:security-metrics",
+					icon: "material-symbols:dashboard-outline",
    external: true
 				},
 			],
