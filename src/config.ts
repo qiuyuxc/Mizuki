@@ -295,19 +295,22 @@ export const navBarConfig: NavBarConfig = {
 			icon: "material-symbols:more-horiz",
 			children: [
 				{
-					name: "Projects",
-					url: "/projects/",
+					name: "站点状态",
+					url: "https://cloud.quiyun.com",
 					icon: "material-symbols:work",
+   external: true
 				},
 				{
-					name: "Skills",
-					url: "/skills/",
+					name: "umami",
+					url: "https://cloud.umami.is/share/n1v9LfSuJEOe7HoO",
 					icon: "material-symbols:psychology",
+   external: true
 				},
 				{
-					name: "Timeline",
-					url: "/timeline/",
+					name: "EdgeOne监控大屏",
+					url: "https://nmer.quiyu.cn/",
 					icon: "material-symbols:timeline",
+   external: true
 				},
 			],
 		},
