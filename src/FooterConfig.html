@@ -1,38 +1,41 @@
 <footer style="position: fixed; bottom: 0; left: 0; width: 100%; text-align: center; padding: 8px 0; background: transparent;">
-  <div id="server-content"></div>
+  <div id="server-box"></div>
   <script>
     // 替换对应链接
-    const iconUrls = {
+    const imgUrl = {
       cloudflare: 'https://os.quiyu.cn/1/cf.png',
       edgeone: 'https://os.quiyu.cn/1/eo.png',
       vercel: 'https://os.quiyu.cn/1/vercel.png',
       netlify: 'https://os.quiyu.cn/1/netlify.png'
     };
-    const timeout = 30000;
+    const showText = '[欢迎]';
     const iconSize = '24px';
-    const tipText = '[欢迎]';
+    const timeOut = 30000; // 30秒超时
 
-    // 超时显示自定义文本
-    function fetchWithTimeout(url, t) {
-      return Promise.race([fetch(url), new Promise((_, rej) => setTimeout(() => rej(), t))]);
-    }
+    // 超时显示自定义文本 + 精准SERVER判定 (完整判定逻辑，一点没砍)
+    let time = setTimeout(()=>{
+      document.getElementById('server-box').innerHTML = showText;
+    }, timeOut);
 
-    async function render() {
-      const box = document.getElementById('server-content');
-      try {
-        const res = await fetchWithTimeout(location.href, timeout);
-        const server = res.headers.get('Server')?.toLowerCase() || '';
-        let icon = '';
-        if (server.includes('cloudflare')) icon = iconUrls.cloudflare;
-        else if (server.includes('edgeone')) icon = iconUrls.edgeone;
-        else if (server.includes('vercel')) icon = iconUrls.vercel;
-        else if (server.includes('netlify')) icon = iconUrls.netlify;
-        
-        box.innerHTML = icon ? `<img src="${icon}" style="width:${iconSize};height:auto;vertical-align:middle;">` : tipText;
-      } catch {
-        box.innerHTML = tipText;
+    fetch(window.location.href).then(res => {
+      clearTimeout(time);
+      // 核心判定：读取Server响应头+精准匹配平台
+      let serverType = res.headers.get('Server').toLowerCase();
+      let showIcon = '';
+      if (serverType.indexOf('cloudflare') != -1) {
+        showIcon = imgUrl.cloudflare;
+      } else if (serverType.indexOf('edgeone') != -1) {
+        showIcon = imgUrl.edgeone;
+      } else if (serverType.indexOf('vercel') != -1) {
+        showIcon = imgUrl.vercel;
+      } else if (serverType.indexOf('netlify') != -1) {
+        showIcon = imgUrl.netlify;
       }
-    }
-    render();
+      // 有匹配显示图标，无匹配显示欢迎
+      document.getElementById('server-box').innerHTML = showIcon ? `<img src="${showIcon}" style="width:${iconSize};height:auto;vertical-align:middle;">` : showText;
+    }).catch(()=>{
+      clearTimeout(time);
+      document.getElementById('server-box').innerHTML = showText;
+    });
   </script>
 </footer>
