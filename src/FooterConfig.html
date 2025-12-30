@@ -1,8 +1,41 @@
-<div style="font-size: 0.8rem; color: #777;">
-    Served by 
-    <a href="https://www.cloudflare.com/" target="_blank" style="color: #F48120; text-decoration: none; font-weight: bold;">Cloudflare</a> & 
-    <a href="https://vercel.com/" target="_blank" style="color: #0070F3; text-decoration: none; font-weight: bold;">Vercel</a> & 
-    <a href="https://www.netlify.com/" target="_blank" style="color: #05BDBA; text-decoration: none; font-weight: bold;">Netlify</a>
-</div>
-<script defer src="https://um.quiyu.cn/script.js" data-website-id="83d3ae16-c421-4676-ae73-8bd88a5a5571"></script>
-<meta name="msvalidate.01" content="9CD06E971E9B842314B69B462B888796" />
+<footer style="position: fixed; bottom: 0; left: 0; width: 100%; text-align: center; padding: 8px 0; background: transparent;">
+  <div id="server-content"></div>
+  <script type="module">
+    // 替换对应链接
+    const iconUrls = {
+      edgeone: 'https://os.quiyu.cn/1/eo.png',
+      vercel: 'https://os.quiyu.cn/1/vercel.png',
+      netlify: 'https://os.quiyu.cn/1/netlify.png'
+    };
+    const timeout = 30000;
+    const iconSize = '24px';
+    const tipText = '[欢迎]';
+
+    // 超时显示自定义文本
+    function fetchWithTimeout(url, t) {
+      return Promise.race([fetch(url), new Promise((_, rej) => setTimeout(() => rej(), t))]);
+    }
+
+    import { Cloudflare } from 'https://esm.sh/@lobehub/icons';
+
+    async function render() {
+      const box = document.getElementById('server-content');
+      try {
+        const res = await fetchWithTimeout(location.href, timeout);
+        const server = res.headers.get('Server')?.toLowerCase() || '';
+        let icon = '';
+        if (server.includes('cloudflare')) {
+          box.innerHTML = Cloudflare.Combine({ size: iconSize }).outerHTML;
+          return;
+        } else if (server.includes('edgeone')) icon = iconUrls.edgeone;
+        else if (server.includes('vercel')) icon = iconUrls.vercel;
+        else if (server.includes('netlify')) icon = iconUrls.netlify;
+        
+        box.innerHTML = icon ? `<img src="${icon}" style="width:${iconSize};height:auto;vertical-align:middle;">` : tipText;
+      } catch {
+        box.innerHTML = tipText;
+      }
+    }
+    render();
+  </script>
+</footer>
