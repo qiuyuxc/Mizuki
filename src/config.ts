@@ -81,7 +81,7 @@ export const siteConfig: SiteConfig = {
 	// 壁纸模式配置
 	wallpaperMode: {
 		// 默认壁纸模式：banner=顶部横幅，fullscreen=全屏壁纸，none=无壁纸
-		defaultMode: "fullscreen",
+		defaultMode: "banner",
 		// 整体布局方案切换按钮显示设置（默认："desktop"）
 		// "off" = 不显示
 		// "mobile" = 仅在移动端显示
@@ -136,14 +136,14 @@ export const siteConfig: SiteConfig = {
 
 		homeText: {
 			enable: true, // 在主页显示自定义文本
-			title: "浅夏与你", // 主页横幅主标题
+			title: "新年快乐", // 主页横幅主标题
 
 			subtitle: [
-				"别回头看，后面没人在等",
-				"与其纠结，不如大睡一场",
-				"你早已融入我朝朝暮暮",
+				"岁岁欢愉，年年胜意",
+				"万事顺遂，平安喜乐",
+				"福气满满，好运连连",
 				"与你言欢，岁岁皆安",
-				"与其感叹，不如给花浇水",
+				"前程似锦，未来可期",
 			],
 			typewriter: {
 				enable: true, // 启用副标题打字机效果
@@ -398,7 +398,7 @@ export const commentConfig: CommentConfig = {
 
 export const announcementConfig: AnnouncementConfig = {
 	title: "Announcement", // 公告标题
-	content: "欢迎来到我的个人博客，这里记录关于日记、技术以及生活的点滴.", // 公告内容
+	content: "新年伊始，喜乐安宁，岁岁常欢愉，年年皆胜意，万事皆顺意，阖家皆安康.", // 公告内容
 	closable: true, // 允许用户关闭公告
 	link: {
 		enable: true, // 启用链接
@@ -614,14 +614,14 @@ export const pioConfig: import("./types/config").PioConfig = {
 	width: 280, // 默认宽度
 	height: 250, // 默认高度
 	mode: "draggable", // 默认为可拖拽模式
-	hiddenOnMobile: true, // 默认在移动设备上隐藏
+	hiddenOnMobile: false, // 默认在移动设备上隐藏
 	dialog: {
-		welcome: "Welcome to Mizuki Website!", // 欢迎词
+		welcome: "欢迎回家", // 欢迎词
 		touch: [
-			"What are you doing?",
-			"Stop touching me!",
-			"HENTAI!",
-			"Don't bully me like that!",
+			"你回来啦，今天过得怎么样？",
+			"摸摸头，是不是累了？",
+			"要多注意休息哦，身体最重要.",
+			"有什么烦心事，可以和我说说.",
 		], // 触摸提示
 		home: "Click here to go back to homepage!", // 首页提示
 		skin: ["Want to see my new outfit?", "The new outfit looks great~"], // 换装提示
