@@ -269,8 +269,8 @@ export const navBarConfig: NavBarConfig = {
 			icon: "material-symbols:person",
 			children: [
 				{
-					name: "网盘",
-					url: "https://pan.quiyu.cn",
+					name: "图床",
+					url: "https://im.quiyu.cn",
 					icon: "material-symbols:cloud-outline",
    external: true
 				},
