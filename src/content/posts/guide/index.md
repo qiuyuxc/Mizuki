@@ -2,7 +2,7 @@
 title: Simple Guides for Mizuki
 published: 2024-04-01
 description: "How to use this blog template."
-image: "/public/asset/088/1.webp"
+image: "public/asset/088/1.webp"
 tags: ["Mizuki", "Blogging", "Customization"]
 category: Guides
 draft: false
