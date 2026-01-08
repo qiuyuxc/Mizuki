@@ -2,7 +2,7 @@
 title: Simple Guides for Mizuki
 published: 2024-04-01
 description: "How to use this blog template."
-image: "https://im.quiyu.cn/api/random?type=pc"
+image: "https://im.quiyu.cn/api/random?type=pc&t=${new Date().getTime()}"
 tags: ["Mizuki", "Blogging", "Customization"]
 category: Guides
 draft: false
