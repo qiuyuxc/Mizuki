@@ -1,6 +1,6 @@
 ---
 title: 对CloudflareTunnel优选
-published: 2025-12-19
+published: 2026-1-14
 description: '使用SaaS回源Tunnel并进行优选'
 image: 'https://im.c-u.xyz/images/38.webp'
 tags: [CDN,Cloudflare,Tunnel,SaaS]
@@ -25,7 +25,7 @@ lang: 'zh-cn'
 
 >在[辅助域名]的dns解析中添加任意[A,AAAAA,CNAME]记录值,开启小黄云,以用于回退源
 
->我这里设saas.quiyun.com指向8.8.8.8
+>我这里设子域名saas指向8.8.8.8
 
 >![示例1](https://oss.quiyu.cn/1/2.png)
 
