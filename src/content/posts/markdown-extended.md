@@ -3,7 +3,7 @@ title: Markdown Extended Features
 published: 2024-05-01
 updated: 2024-11-29
 description: 'Read more about Markdown features in Mizuki'
-image: "https://im.quiyu.cn/api/random?type=pc"
+image: "https://im.c-u.xyz/api/random?type=pc&t=${new Date().getTime()}"
 tags: [Demo, Example, Markdown, mizuki]
 category: 'Examples'
 draft: false 
