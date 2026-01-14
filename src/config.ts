@@ -300,7 +300,7 @@ export const navBarConfig: NavBarConfig = {
 			children: [
 				{
 					name: "站点状态",
-					url: "https://cloud.quiyun.com",
+					url: "https://star.quiyu.cn",
 					icon: "material-symbols:vital-signs",
    external: true
 				},
