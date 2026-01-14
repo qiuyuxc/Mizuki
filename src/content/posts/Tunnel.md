@@ -2,23 +2,23 @@
 title: 对CloudflareTunnel优选
 published: 2025-12-19
 description: '使用SaaS回源Tunnel并进行优选'
-image: 'https://im.c-u.xyz/images/15.webp'
+image: 'https://im.c-u.xyz/images/38.webp'
 tags: [CDN,Cloudflare,Tunnel,SaaS]
 category: 'CDN'
 draft: false 
 lang: 'zh-cn'
 ---
 
-##准备阶段
+## 准备阶段
 >1.准备两个域名[付费/免费都可以]
 
 >2.海外借记卡/PayPal[用于验证开通SaaS]
 
 
-##理解
+## 理解
 >设域名分别为xik.com,cf.com,如需最终访问地址为*.xik.com,则cf.com为配置SaaS的域名,反之同理.[xik.com为主域名,cf.com为辅助域名]
 
-##实操
+## 实操
 >在你的Tunnel中给你需要优选的站点添加两个不同的域名[主域名与辅助域名]
 
 >![示例](https://oss.quiyu.cn/1/1.png)
@@ -49,7 +49,7 @@ https://www.byoip.top/
 
 >>全部生效后,使用itdog等站点进行测试,确认是否生效
 
->以下是晚高峰对比图
+# 以下是晚高峰对比图
 
 >未优选
 
