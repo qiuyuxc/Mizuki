@@ -6,7 +6,7 @@ import { url } from "../utils/url-utils";
 
 const currentYear = new Date().getFullYear();
 
-// 1. 保持你原有的自定义内容逻辑
+// 1. 获取页脚自定义 HTML（完全保留你原来的逻辑）
 let customFooterHtml = "";
 if (footerConfig.enable) {
 	if (footerConfig.customHtml && footerConfig.customHtml.trim() !== "") {
@@ -17,7 +17,7 @@ if (footerConfig.enable) {
 			customFooterHtml = fs.readFileSync(footerConfigPath, "utf-8");
 			customFooterHtml = customFooterHtml.replace(//g, "").trim();
 		} catch (error) {
-			console.warn("FooterConfig.html文件读取失败:", error.message);
+			console.warn("FooterConfig.html 读取失败:", error.message);
 		}
 	}
 }
@@ -33,16 +33,14 @@ if (footerConfig.enable) {
         )}
 
         <div class="mb-2">
-            &copy; <span id="copyright-year">{currentYear}</span> 
-            <a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://Blog.quiyu.cn">{profileConfig.name}</a>. All Rights Reserved.
+            &copy; <span>2024 - {currentYear}</span> 
+            <a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://Blog.quiyu.cn">{profileConfig.name}</a>
         </div>
 
         <div class="mb-2 flex items-center justify-center gap-3 text-black/40 dark:text-white/40 font-medium">
-            <a class="transition link text-[var(--primary)]" href={url('rss/')} onclick="event.preventDefault(); navigateToPage('${url('rss/')}')">RSS</a>
+            <a class="transition link text-[var(--primary)]" href={url('rss.xml')}>RSS</a>
             <span class="opacity-20">/</span>
-            <a class="transition link text-[var(--primary)]" href={url('atom/')} onclick="event.preventDefault(); navigateToPage('${url('atom/')}')">Atom</a>
-            <span class="opacity-20">/</span>
-            <a class="transition link text-[var(--primary)]" target="_blank" href={url('sitemap-index.xml')}>Sitemap</a>
+            <a class="transition link text-[var(--primary)]" href={url('sitemap-index.xml')}>Sitemap</a>
         </div>
 
         <div class="text-[11px] text-black/30 dark:text-white/30">
@@ -51,13 +49,27 @@ if (footerConfig.enable) {
             <a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://github.com/qiuyuxc/Mizuki">Mizuki</a>
         </div>
 
-        <div id="cdn-status-container" class="mt-3 pt-3 border-t border-black/5 dark:border-white/5">
-            <div class="flex items-center justify-center text-[10px] text-black/20 dark:text-white/20 gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-green-500/50 animate-pulse"></span>
-                正在探测访问节点...
-            </div>
+        <div id="cdn-status" class="mt-3 pt-3 border-t border-black/5 dark:border-white/5 text-[10px] text-black/20 dark:text-white/20">
+            正在探测访问节点...
         </div>
     </div>
 </div>
 
 <script is:inline>
+    async function checkNode() {
+        const el = document.getElementById('cdn-status');
+        if (!el) return;
+        try {
+            const res = await fetch(window.location.href, { method: 'HEAD' });
+            const server = res.headers.get('server') || 'Origin';
+            let node = server;
+            if (server.toLowerCase().includes('cloudflare')) node = 'Cloudflare';
+            if (server.toLowerCase().includes('edgeone') || server.toLowerCase().includes('esa')) node = 'Tencent EdgeOne';
+            el.innerHTML = `<span class="inline-block w-1.5 h-1.5 rounded-full bg-green-500/50 mr-1"></span> 访问节点: ${node}`;
+        } catch (e) {
+            el.remove();
+        }
+    }
+    checkNode();
+    document.addEventListener('astro:after-swap', checkNode);
+</script>
