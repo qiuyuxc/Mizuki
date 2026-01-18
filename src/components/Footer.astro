@@ -6,70 +6,84 @@ import { url } from "../utils/url-utils";
 
 const currentYear = new Date().getFullYear();
 
-// 1. 获取自定义 HTML 逻辑 (严格对齐版)
 let customFooterHtml = "";
 if (footerConfig.enable) {
-	if (footerConfig.customHtml && footerConfig.customHtml.trim() !== "") {
-		customFooterHtml = footerConfig.customHtml.trim();
-	} else {
-		try {
-			const footerConfigPath = path.join(process.cwd(), "src", "FooterConfig.html");
-			customFooterHtml = fs.readFileSync(footerConfigPath, "utf-8");
-			customFooterHtml = customFooterHtml.replace(//g, "").trim();
-		} catch (error) {
-			console.warn("FooterConfig.html 读取失败:", error.message);
-		}
-	}
+  if (footerConfig.customHtml && footerConfig.customHtml.trim() !== "") {
+    customFooterHtml = footerConfig.customHtml.trim();
+  } else {
+    try {
+      const footerConfigPath = path.join(process.cwd(), "src", "FooterConfig.html");
+      customFooterHtml = fs.readFileSync(footerConfigPath, "utf-8");
+    } catch (error) {
+      console.warn("FooterConfig.html 失败:", error.message);
+    }
+  }
 }
 ---
 
 <div class="transition border-t border-black/10 dark:border-white/15 my-10 border-dashed mx-4 md:mx-32"></div>
 
 <div class="card-base w-fit mx-auto rounded-xl mt-4 mb-12">
-    <div class="transition text-50 text-sm text-center p-6 leading-relaxed">
-        
-        {customFooterHtml && (
-            <div class="mb-3 pb-3 border-b border-black/5 dark:border-white/5" set:html={customFooterHtml}></div>
-        )}
+  <div class="transition text-50 text-sm text-center p-6 leading-relaxed">
+      {customFooterHtml && (
+          <div class="mb-3 pb-3 border-b border-black/5 dark:border-white/5" dangerouslySetInnerHTML={customFooterHtml}></div>
+      )}
 
-        <div class="mb-2">
-            &copy; <span>2024 - {currentYear}</span> 
-            <a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://Blog.quiyu.cn">{profileConfig.name}</a>
-        </div>
+      <div class="mb-2">
+          &copy; <span>2024 - {currentYear}</span> 
+          <a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://Blog.quiyu.cn"> {profileConfig.name} </a>
+          <span class="mx-1 text-black/10 dark:text-white/10">|</span>
+          <a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+      </div>
 
-        <div class="mb-2 flex items-center justify-center gap-3 text-black/40 dark:text-white/40 font-medium">
-            <a class="transition link text-[var(--primary)]" href={url('rss.xml')}>RSS</a>
-            <span class="opacity-20">/</span>
-            <a class="transition link text-[var(--primary)]" href={url('sitemap-index.xml')}>Sitemap</a>
-        </div>
+      <div class="mb-2 flex items-center justify-center gap-3 text-black/40 dark:text-white/40 font-medium text-[13px]">
+          <a class="transition link text-[var(--primary)]" href={url('rss.xml')}>RSS</a>
+          <span class="opacity-20">/</span>
+          <a class="transition link text-[var(--primary)]" href={url('sitemap-index.xml')}>Sitemap</a>
+      </div>
 
-        <div class="text-[11px] text-black/30 dark:text-white/30">
-            Powered by 
-            <a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://astro.build">Astro</a> & 
-            <a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://github.com/qiuyuxc/Mizuki">Mizuki</a>
-        </div>
+      <div class="text-[11px] text-black/30 dark:text-white/30 opacity-70">
+          Powered by Astro & Fuwari
+          <br />
+          本网站代码已开源 
+          <a class="transition link text-black/30 dark:text-white/30 hover:text-[var(--primary)] text-xs ml-1" 
+             target="_blank" 
+             href={`https://github.com/qiuyuxc/Mizuki/commit/${commitHash}`}>
+             ({commitHash} @ {buildDate})
+          </a>
+      </div>
 
-        <div id="cdn-status" class="mt-3 pt-3 border-t border-black/5 dark:border-white/5 text-[10px] text-black/20 dark:text-white/20">
-            正在探测访问节点...
-        </div>
-    </div>
+      <div id="cdn-status-container" class="mt-3 pt-3 border-t border-black/5 dark:border-white/5">
+          <div class="flex items-center justify-center text-[10px] text-black/20 dark:text-white/20 gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-gray-300"></span>
+              节点探测中...
+          </div>
+      </div>
+  </div>
 </div>
 
 <script is:inline>
-    async function checkNode() {
-        const el = document.getElementById('cdn-status');
-        if (!el) return;
-        try {
-            const res = await fetch(window.location.href, { method: 'HEAD' });
-            const server = res.headers.get('server') || 'Origin';
-            let node = server;
-            if (server.toLowerCase().includes('cloudflare')) node = 'Cloudflare';
-            if (server.toLowerCase().includes('edgeone') || server.toLowerCase().includes('esa')) node = 'Tencent EdgeOne';
-            el.innerHTML = `<span class="inline-block w-1.5 h-1.5 rounded-full bg-green-500/50 mr-1 animate-pulse"></span> 访问节点: ${node}`;
-        } catch (e) {
-            el.remove();
-        }
-    }
-    checkNode();
-    document.addEventListener('astro:after-swap', checkNode);
+  async function initCdnStatus() {
+      const container = document.getElementById('cdn-status-container');
+      if (!container) return;
+      try {
+          const res = await fetch(window.location.href, { method: 'HEAD' });
+          const server = res.headers.get('server') || 'Origin';
+          
+          let nodeDisplay = server;
+          const serverLower = server.toLowerCase();
+          if (serverLower.includes('cloudflare')) nodeDisplay = 'Cloudflare';
+          if (serverLower.includes('edgeone') || serverLower.includes('esa')) nodeDisplay = 'Tencent EdgeOne';
+
+          container.innerHTML = `
+              <div class="flex items-center justify-center text-[10px] text-black/20 dark:text-white/20 gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-green-500/50 animate-pulse"></span>
+                  访问节点: <span class="font-medium">${nodeDisplay}</span>
+              </div>`;
+      } catch (e) {
+          container.innerHTML = '';
+      }
+  }
+  initCdnStatus();
+  document.addEventListener('astro:after-swap', initCdnStatus);
 </script>
