@@ -1,6 +1,6 @@
 ---
 import { execSync } from "node:child_process";
-import { profileConfig, siteConfig } from "../config";
+import { profileConfig } from "../config";
 import { url } from "../utils/url-utils";
 
 const currentYear = new Date().getFullYear();
@@ -26,13 +26,14 @@ try {
 
 <div class="transition border-t border-black/10 dark:border-white/15 my-10 border-dashed mx-4 md:mx-32"></div>
 
-<div class="card-base w-fit mx-auto rounded-xl mt-4 mb-4">
+<div class="card-base mx-auto rounded-xl mt-4 mb-4 max-w-lg">
 	<div class="transition text-50 text-sm text-center p-6">
-		&copy; <span id="copyright-year">2024 - {currentYear}</span>
+
+		&copy; <span>2024 - {currentYear}</span>
 		<a
 			class="transition link text-[var(--primary)] font-medium"
 			target="_blank"
-			href="https://Blog.quiyu.cn"
+			href="https://blog.quiyu.cn"
 		>
 			{profileConfig.name}
 		</a>
@@ -45,6 +46,7 @@ try {
 			CC BY-NC-SA 4.0
 		</a>
 		许可
+
 		<br />
 
 		<a
@@ -62,6 +64,7 @@ try {
 		>
 			网站地图
 		</a>
+
 		<br />
 
 		由
@@ -81,149 +84,39 @@ try {
 			Fuwari
 		</a>
 		强力驱动
+
 		<br />
 
 		本网站代码
 		<a
 			class="transition link text-[var(--primary)] font-medium"
 			target="_blank"
-			href="https://github.com/qiuyuxc"
+			href="https://github.com/qiuyuxc/Mizuki"
 		>
 			已开源
 		</a>
 		<a
 			class="transition link text-black/30 dark:text-white/30 hover:text-[var(--primary)] text-xs ml-1"
 			target="_blank"
-			href={`https://github.com/qiuyuxc/commit/${commitHash}`}
+			href={`https://github.com/qiuyuxc/Mizuki/commit/${commitHash}`}
 		>
 			({commitHash} @ {buildDate})
 		</a>
+
 		<br />
 
-		<div class="server-info-container flex flex-col items-center justify-center gap-1 mt-1">
-			<!-- Server info will be injected here -->
+		<!-- 固定 Cloudflare Pages -->
+		<div class="flex items-center justify-center gap-1 mt-1">
+			<span class="text-black/30 dark:text-white/30 text-xs">
+				访问节点：
+			</span>
+			<img
+				src="/cdn/cf.svg"
+				alt="Cloudflare Pages"
+				title="Deployed on Cloudflare Pages"
+				class="h-4"
+			/>
 		</div>
+
 	</div>
 </div>
-
-<script is:inline define:vars={{ serverConfig: siteConfig.server || [] }}>
-	(() => {
-		if (window.__footerServerInit) return;
-		window.__footerServerInit = true;
-
-		function normalizeUrl(input) {
-			if (!input) return "";
-			return input.trim().replace(/:+$/, "");
-		}
-
-		function createServerEntry(config) {
-			const div = document.createElement("div");
-			div.className = "flex items-center justify-center";
-
-			const label = document.createElement("span");
-			label.className = "text-black/30 dark:text-white/30 text-xs mr-1";
-			label.innerText = `${config.text}：`;
-			div.appendChild(label);
-
-			const valueSpan = document.createElement("span");
-			valueSpan.className = "server-value text-black/30 dark:text-white/30 text-xs";
-			valueSpan.innerText = "检测中...";
-			div.appendChild(valueSpan);
-
-			const iconImg = document.createElement("img");
-			iconImg.className = "server-icon h-4 ml-1 hidden";
-			iconImg.alt = "Server Icon";
-			div.appendChild(iconImg);
-
-			return { div, valueSpan, iconImg };
-		}
-
-		function updateEntryDisplay(elements, server) {
-			const { valueSpan, iconImg } = elements;
-
-			if (server) {
-				const serverLower = server.toLowerCase();
-				let iconSrc = null;
-
-				if (serverLower.includes("esa")) iconSrc = "/cdn/esa.svg";
-				else if (serverLower.includes("edgeone")) iconSrc = "/cdn/eo.svg";
-				else if (serverLower.includes("cloudflare")) iconSrc = "/cdn/cf.svg";
-
-				if (iconSrc) {
-					iconImg.src = iconSrc;
-					iconImg.classList.remove("hidden");
-					valueSpan.classList.add("hidden");
-				} else {
-					valueSpan.innerText = server;
-					iconImg.classList.add("hidden");
-					valueSpan.classList.remove("hidden");
-				}
-			} else {
-				valueSpan.innerText = "未知";
-				iconImg.classList.add("hidden");
-				valueSpan.classList.remove("hidden");
-			}
-		}
-
-		async function checkServer(url) {
-			try {
-				const targetUrl = normalizeUrl(url) || window.location.href;
-				const response = await fetch(targetUrl, { method: "HEAD" });
-				return response.headers.get("server");
-			} catch (error) {
-				console.warn(`Failed to fetch server info for ${url}:`, error);
-				return null;
-			}
-		}
-
-		async function initServerInfo() {
-			const containers = document.querySelectorAll(".server-info-container");
-			if (containers.length === 0) return;
-
-			const isDevMode = localStorage.getItem("dev-mode") === "true";
-			if (isDevMode) {
-				const devServer = localStorage.getItem("dev-server");
-				containers.forEach(container => {
-					container.innerHTML = "";
-					const elements = createServerEntry({ text: "Dev Node" });
-					container.appendChild(elements.div);
-					updateEntryDisplay(elements, devServer);
-				});
-				return;
-			}
-
-			window.__serverInfoCache = window.__serverInfoCache || {};
-			const cache = window.__serverInfoCache;
-
-			const getServerInfo = url => {
-				const key = normalizeUrl(url);
-				if (cache[key]) return cache[key];
-				cache[key] = checkServer(key);
-				return cache[key];
-			};
-
-			containers.forEach(container => {
-				container.innerHTML = "";
-
-				if (!serverConfig || serverConfig.length === 0) {
-					const elements = createServerEntry({ text: "访问节点" });
-					container.appendChild(elements.div);
-					getServerInfo("").then(server => updateEntryDisplay(elements, server));
-					return;
-				}
-
-				serverConfig.forEach(config => {
-					const elements = createServerEntry(config);
-					container.appendChild(elements.div);
-					getServerInfo(config.url).then(server =>
-						updateEntryDisplay(elements, server)
-					);
-				});
-			});
-		}
-
-		initServerInfo();
-		document.addEventListener("astro:after-swap", initServerInfo);
-		document.addEventListener("content:replace", initServerInfo);
-	})();
-</script>
