@@ -6,7 +6,7 @@ import { url } from "../utils/url-utils";
 
 const currentYear = new Date().getFullYear();
 
-// 1. 获取页脚自定义 HTML（完全保留你原来的逻辑）
+// 1. 获取自定义 HTML 逻辑 (严格对齐版)
 let customFooterHtml = "";
 if (footerConfig.enable) {
 	if (footerConfig.customHtml && footerConfig.customHtml.trim() !== "") {
@@ -65,7 +65,7 @@ if (footerConfig.enable) {
             let node = server;
             if (server.toLowerCase().includes('cloudflare')) node = 'Cloudflare';
             if (server.toLowerCase().includes('edgeone') || server.toLowerCase().includes('esa')) node = 'Tencent EdgeOne';
-            el.innerHTML = `<span class="inline-block w-1.5 h-1.5 rounded-full bg-green-500/50 mr-1"></span> 访问节点: ${node}`;
+            el.innerHTML = `<span class="inline-block w-1.5 h-1.5 rounded-full bg-green-500/50 mr-1 animate-pulse"></span> 访问节点: ${node}`;
         } catch (e) {
             el.remove();
         }
